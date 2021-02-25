@@ -9,11 +9,6 @@ const User = mongoose.model('User', {
 		trim: true,
 		required: true
 	},
-	// token: {
-	// 	type: String,
-	// 	// maxLength: 17,
-	// 	required: true
-	// },
 	salt: {
 		type: String,
 		// maxLength: 17,
