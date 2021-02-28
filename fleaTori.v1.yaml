@@ -1,0 +1,1213 @@
+openapi: 3.0.0
+info:
+  title: fleaTori
+  version: '1.0'
+  contact:
+    name: Abdeljalil Misbah
+    email: t9miab00@students.oamk.fi
+servers:
+  - url: 'http://localhost:5000'
+paths:
+  /regusers:
+    post:
+      summary: ''
+      operationId: post-regusers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    minLength: 1
+                  token:
+                    type: string
+                    minLength: 1
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDM1MThmYzVlNmQ0ZjEyNzBiNzM1NGUiLCJlbWFpbCI6Im9hbWszQG9hbWsuY29tIiwiYWNjb3VudCI6eyJwaG9uZSI6IjA2NTQyMzcyIiwidXNlcm5hbWUiOiJwb3Jra2FuYSJ9LCJpYXQiOjE2MTQwOTI1NDAsImV4cCI6MTYxNjY4NDU0MH0.VTEiikQKpm1a9IblVpFBv_vDoaZHUXTKghYe2Fr13mg
+                  account:
+                    type: object
+                    required:
+                      - phone
+                      - username
+                    properties:
+                      phone:
+                        type: string
+                        example: '045728367'
+                      username:
+                        type: string
+                        minLength: 1
+                        example: potaato
+                required:
+                  - _id
+                  - token
+                  - account
+              examples:
+                Response:
+                  value:
+                    _id: string
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDM1MThmYzVlNmQ0ZjEyNzBiNzM1NGUiLCJlbWFpbCI6Im9hbWszQG9hbWsuY29tIiwiYWNjb3VudCI6eyJwaG9uZSI6IjA2NTQyMzcyIiwidXNlcm5hbWUiOiJwb3Jra2FuYSJ9LCJpYXQiOjE2MTQwOTI1NDAsImV4cCI6MTYxNjY4NDU0MH0.VTEiikQKpm1a9IblVpFBv_vDoaZHUXTKghYe2Fr13mg
+                    account:
+                      phone: '045728367'
+                      username: potaato
+        '400':
+          description: Missing Credentials
+        '403':
+          description: User already exists
+      description: Regiter new Identifier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: potaato@gmail.com
+                  minLength: 6
+                  maxLength: 60
+                username:
+                  type: string
+                  example: potaato
+                  minLength: 3
+                  maxLength: 60
+                password:
+                  type: string
+                  format: password
+                  example: pa$$word
+                  minLength: 6
+                  maxLength: 20
+                phone:
+                  type: string
+                  example: '04572839867'
+                  minLength: 10
+                  maxLength: 14
+            examples:
+              Resistering:
+                value:
+                  email: potaato@gmail.com
+                  username: potaato
+                  password: pa$$word
+                  phone: '04572839867'
+        description: ''
+  /logusers:
+    post:
+      summary: ''
+      operationId: post-logusers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    minLength: 1
+                  email:
+                    type: string
+                    minLength: 1
+                    example: potaato@gmail.com
+                    format: email
+                  account:
+                    type: object
+                    required:
+                      - phone
+                      - username
+                    properties:
+                      phone:
+                        type: string
+                        minLength: 1
+                        example: '098736542'
+                      username:
+                        type: string
+                        minLength: 1
+                        example: potaato
+                  token:
+                    type: string
+                    minLength: 1
+                    description: JWT token used for authentication
+                required:
+                  - _id
+                  - email
+                  - account
+                  - token
+              examples:
+                potaato logged:
+                  value:
+                    _id: string
+                    email: potaato@gmail.com
+                    account:
+                      phone: '098736542'
+                      username: potaato
+                    token: string
+        '400':
+          description: Missing credentials
+        '404':
+          description: No user exists with such infos
+      description: Login already existing user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+                  example: potaato@gmail.com
+                  description: existing user email
+                password:
+                  type: string
+                  minLength: 1
+                  format: password
+                  example: pa$$word
+                  description: matching password for existing user
+              required:
+                - email
+                - password
+            examples:
+              Login:
+                value:
+                  email: potaato@gmail.com
+                  password: pa$$word
+        description: Login using email and password
+    parameters: []
+  /users:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  count:
+                    type: number
+                  users:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        account:
+                          type: object
+                          properties:
+                            phone:
+                              type: string
+                              minLength: 1
+                              example: '0562763873'
+                            username:
+                              type: string
+                              minLength: 1
+                              example: potaato
+                          required:
+                            - phone
+                            - username
+                        _id:
+                          type: string
+                          minLength: 1
+                          format: uuid
+                        email:
+                          type: string
+                          minLength: 1
+                          format: email
+                          example: potaato@gmail.com
+                        salt:
+                          type: string
+                          minLength: 1
+                          format: uuid
+                        password:
+                          type: string
+                          minLength: 1
+                          example: pa$$word
+                          format: password
+                        __v:
+                          type: number
+                      required:
+                        - _id
+                        - email
+                        - salt
+                        - password
+                        - __v
+                required:
+                  - count
+                  - users
+              examples:
+                All Users in database:
+                  value:
+                    count: 0
+                    users:
+                      - account:
+                          phone: '0562763873'
+                          username: potaato
+                        _id: 1f704bc5-5055-43eb-a851-c87b6b0bf7b9
+                        email: potaato@gmail.com
+                        salt: dc1a9a8c-8112-4c4e-9303-9e1a05b10cc8
+                        password: pa$$word
+                        __v: 0
+        '400':
+          description: No users found in database
+      operationId: get-users
+      description: Getting all Users data in the database
+  /usersads:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      minLength: 1
+                    category:
+                      type: string
+                      minLength: 1
+                    location:
+                      type: string
+                      minLength: 1
+                    price:
+                      type: number
+                    pictures:
+                      type: array
+                      items:
+                        type: string
+                    _id:
+                      type: string
+                      minLength: 1
+                    title:
+                      type: string
+                      minLength: 1
+                    delivery:
+                      type: boolean
+                    creator:
+                      type: object
+                      required:
+                        - account
+                        - _id
+                      properties:
+                        account:
+                          type: object
+                          required:
+                            - phone
+                            - username
+                          properties:
+                            phone:
+                              type: string
+                              minLength: 1
+                            username:
+                              type: string
+                              minLength: 1
+                        _id:
+                          type: string
+                          minLength: 1
+                    created:
+                      type: string
+                      minLength: 1
+                    __v:
+                      type: number
+                  required:
+                    - description
+                    - category
+                    - location
+                    - price
+                    - pictures
+                    - _id
+                    - title
+                    - delivery
+                    - creator
+                    - created
+                    - __v
+              examples:
+                Ads by authenticated user:
+                  value:
+                    - description: string
+                      category: string
+                      location: string
+                      price: 0
+                      pictures:
+                        - string
+                      _id: string
+                      title: string
+                      delivery: true
+                      creator:
+                        account:
+                          phone: string
+                          username: string
+                        _id: string
+                      created: string
+                      __v: 0
+        '401':
+          description: Invalid Token
+      operationId: get-usersads
+      description: 'Get all ads created by authenticated user, requires authorization token'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
+          description: jwt token
+  /ads:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      minLength: 1
+                    category:
+                      type: string
+                      minLength: 1
+                    location:
+                      type: string
+                      minLength: 1
+                    price:
+                      type: number
+                    pictures:
+                      type: array
+                      items:
+                        type: string
+                    _id:
+                      type: string
+                      minLength: 1
+                    title:
+                      type: string
+                      minLength: 1
+                    creator:
+                      type: string
+                      minLength: 1
+                    created:
+                      type: string
+                      minLength: 1
+                    __v:
+                      type: number
+                    delivery:
+                      type: boolean
+                  required:
+                    - description
+                    - category
+                    - location
+                    - price
+                    - _id
+                    - title
+                    - creator
+                    - created
+                    - __v
+                    - delivery
+              examples:
+                All ads in the database:
+                  value:
+                    - description: string
+                      category: string
+                      location: string
+                      price: 0
+                      pictures:
+                        - string
+                      _id: string
+                      title: string
+                      creator: string
+                      created: string
+                      __v: 0
+                      delivery: true
+        '404':
+          description: There are no ads in the database
+      operationId: get-ads
+      description: Get all advertisements
+    post:
+      summary: ''
+      operationId: post-ads
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    minLength: 1
+                  title:
+                    type: string
+                    minLength: 1
+                  description:
+                    type: string
+                    minLength: 1
+                  category:
+                    type: string
+                    minLength: 1
+                  location:
+                    type: string
+                    minLength: 1
+                  delivery:
+                    type: boolean
+                  price:
+                    type: number
+                  pictures:
+                    type: array
+                    items:
+                      type: string
+                  creator:
+                    type: object
+                    required:
+                      - _id
+                    properties:
+                      _id:
+                        type: string
+                        minLength: 1
+                  created:
+                    type: string
+                    minLength: 1
+                required:
+                  - _id
+                  - title
+                  - description
+                  - category
+                  - location
+                  - delivery
+                  - price
+                  - pictures
+                  - creator
+                  - created
+              examples:
+                Ad successfully created:
+                  value:
+                    _id: string
+                    title: string
+                    description: string
+                    category: string
+                    location: string
+                    delivery: true
+                    price: 0
+                    pictures:
+                      - string
+                    creator:
+                      _id: string
+                    created: string
+        '400':
+          description: Missing required info
+        '401':
+          description: Invalid token
+      description: 'Create new advertisement, requires authentication and authorization token. '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  example: Iphone 12 pro max
+                description:
+                  type: string
+                  minLength: 1
+                  example: description goes here
+                category:
+                  type: string
+                  minLength: 1
+                  example: category type
+                location:
+                  type: string
+                  minLength: 1
+                  example: City or location
+                delivery:
+                  type: boolean
+                price:
+                  type: number
+                pictures:
+                  type: array
+                  items:
+                    type: string
+                    example: Cloudinary URL
+              required:
+                - title
+                - description
+                - category
+                - location
+                - price
+                - pictures
+            examples:
+              New advertisement:
+                value:
+                  title: Iphone 12 pro max
+                  description: description goes here
+                  category: category type
+                  location: City or location
+                  delivery: true
+                  price: 0
+                  pictures:
+                    - Cloudinary URL
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
+          description: JWT token
+  /ads/count:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  count:
+                    type: number
+                    example: 1
+                  advertisements:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        description:
+                          type: string
+                          minLength: 1
+                        category:
+                          type: string
+                          minLength: 1
+                        location:
+                          type: string
+                          minLength: 1
+                        price:
+                          type: number
+                        pictures:
+                          type: array
+                          items:
+                            type: string
+                        _id:
+                          type: string
+                          minLength: 1
+                        title:
+                          type: string
+                          minLength: 1
+                        delivery:
+                          type: boolean
+                        creator:
+                          type: object
+                          properties:
+                            account:
+                              type: object
+                              required:
+                                - phone
+                                - username
+                              properties:
+                                phone:
+                                  type: string
+                                  minLength: 1
+                                username:
+                                  type: string
+                                  minLength: 1
+                            _id:
+                              type: string
+                              minLength: 1
+                          required:
+                            - account
+                            - _id
+                        created:
+                          type: string
+                          minLength: 1
+                        __v:
+                          type: number
+                      required:
+                        - description
+                        - category
+                        - location
+                        - price
+                        - _id
+                        - title
+                        - delivery
+                        - created
+                        - __v
+                required:
+                  - count
+                  - advertisements
+              examples:
+                example-1:
+                  value:
+                    count: 1
+                    advertisements:
+                      - description: string
+                        category: string
+                        location: string
+                        price: 0
+                        pictures:
+                          - string
+                        _id: string
+                        title: string
+                        delivery: true
+                        creator:
+                          account:
+                            phone: string
+                            username: string
+                          _id: string
+                        created: string
+                        __v: 0
+        '404':
+          description: No ads found in the db
+      operationId: get-ads-count
+      description: Get all ads in the db with count and sorting from newer to older
+      parameters: []
+  '/ads/{id}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  description:
+                    type: string
+                    minLength: 1
+                  category:
+                    type: string
+                    minLength: 1
+                  location:
+                    type: string
+                    minLength: 1
+                  price:
+                    type: number
+                  pictures:
+                    type: array
+                    items:
+                      type: string
+                  _id:
+                    type: string
+                    minLength: 1
+                  title:
+                    type: string
+                    minLength: 1
+                  delivery:
+                    type: boolean
+                  creator:
+                    type: object
+                    required:
+                      - account
+                      - _id
+                    properties:
+                      account:
+                        type: object
+                        required:
+                          - phone
+                          - username
+                        properties:
+                          phone:
+                            type: string
+                            minLength: 1
+                          username:
+                            type: string
+                            minLength: 1
+                      _id:
+                        type: string
+                        minLength: 1
+                  created:
+                    type: string
+                    minLength: 1
+                  __v:
+                    type: number
+                required:
+                  - description
+                  - category
+                  - location
+                  - price
+                  - pictures
+                  - _id
+                  - title
+                  - delivery
+                  - creator
+                  - created
+                  - __v
+        '404':
+          description: Advertisement not found
+      operationId: 'get-ads-:id'
+      description: Get ad by id
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Advertisement id
+  '/category/{category}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      minLength: 1
+                    category:
+                      type: string
+                      minLength: 1
+                    location:
+                      type: string
+                      minLength: 1
+                    price:
+                      type: number
+                    pictures:
+                      type: array
+                      items:
+                        type: string
+                    _id:
+                      type: string
+                      minLength: 1
+                    title:
+                      type: string
+                      minLength: 1
+                    delivery:
+                      type: boolean
+                    creator:
+                      type: string
+                      minLength: 1
+                    created:
+                      type: string
+                      minLength: 1
+                    __v:
+                      type: number
+                  required:
+                    - description
+                    - category
+                    - location
+                    - price
+                    - pictures
+                    - _id
+                    - title
+                    - delivery
+                    - creator
+                    - created
+                    - __v
+        '204':
+          description: No Content
+      operationId: get-category
+      description: get ads by category
+    parameters:
+      - schema:
+          type: string
+        name: category
+        in: path
+        required: true
+        description: Category name
+  '/location/{location}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      minLength: 1
+                    category:
+                      type: string
+                      minLength: 1
+                    location:
+                      type: string
+                      minLength: 1
+                    price:
+                      type: number
+                    pictures:
+                      type: array
+                      items:
+                        type: string
+                    _id:
+                      type: string
+                      minLength: 1
+                    title:
+                      type: string
+                      minLength: 1
+                    delivery:
+                      type: boolean
+                    creator:
+                      type: string
+                      minLength: 1
+                    created:
+                      type: string
+                      minLength: 1
+                    __v:
+                      type: number
+                  required:
+                    - description
+                    - category
+                    - location
+                    - price
+                    - pictures
+                    - _id
+                    - title
+                    - delivery
+                    - creator
+                    - created
+                    - __v
+        '204':
+          description: 'No ads with this location, empty array'
+      operationId: get-location
+      description: Get ads by location
+    parameters:
+      - schema:
+          type: string
+        name: location
+        in: path
+        required: true
+        description: 'Location name, city or region'
+  '/update/{id}':
+    put:
+      summary: ''
+      operationId: put-update
+      responses:
+        '200':
+          description: Add successfully modified
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    minLength: 1
+                  title:
+                    type: string
+                    minLength: 1
+                  description:
+                    type: string
+                    minLength: 1
+                  category:
+                    type: string
+                    minLength: 1
+                  location:
+                    type: string
+                    minLength: 1
+                  delivery:
+                    type: boolean
+                  price:
+                    type: number
+                  pictures:
+                    type: array
+                    items:
+                      type: string
+                  creator:
+                    type: object
+                    required:
+                      - _id
+                    properties:
+                      _id:
+                        type: string
+                        minLength: 1
+                  created:
+                    type: string
+                    minLength: 1
+                required:
+                  - _id
+                  - title
+                  - description
+                  - category
+                  - location
+                  - delivery
+                  - price
+                  - pictures
+                  - creator
+                  - created
+              examples:
+                Successfully modified:
+                  value:
+                    _id: string
+                    title: string
+                    description: string
+                    category: string
+                    location: string
+                    delivery: true
+                    price: 0
+                    pictures:
+                      - string
+                    creator:
+                      _id: string
+                    created: string
+        '400':
+          description: Missing required details
+        '401':
+          description: Invalid token
+      description: 'Update ads made by authenticated user, requires authorization'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
+          description: Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                description:
+                  type: string
+                  minLength: 1
+                category:
+                  type: string
+                  minLength: 1
+                location:
+                  type: string
+                  minLength: 1
+                delivery:
+                  type: boolean
+                price:
+                  type: number
+                pictures:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - title
+                - description
+                - category
+                - location
+                - delivery
+                - price
+                - pictures
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+  '/delete/{id}':
+    delete:
+      summary: ''
+      operationId: delete-delete
+      description: Delete Advertisement created by USer
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
+          description: 'token '
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ad deleted!
+        '401':
+          description: Invalid token
+        '404':
+          description: Ad not found
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Advertisement id
+components:
+  schemas:
+    User:
+      title: user
+      type: object
+      description: Users model
+      x-examples:
+        Potaato:
+          id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          account:
+            phone: '05462839867'
+            username: potaato
+          email: potaato@gmail.com
+          salt: dc1a9a8c-8112-4c4e-9303-9e1a05b10cc8
+          password: pa$$word
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given user.
+          format: uuid
+        account:
+          type: object
+          required:
+            - phone
+            - username
+          properties:
+            phone:
+              type: string
+              description: Phone number of udentifier
+              example: '05462839867'
+            username:
+              type: string
+              description: Unique user name of user
+              example: potaato
+              maxLength: 60
+        email:
+          type: string
+          format: email
+          description: Unique email of identifier
+          example: potaato@gmail.com
+          minLength: 6
+          maxLength: 60
+        salt:
+          type: string
+          description: uuid used to hash identifier password
+          format: uuid
+        password:
+          type: string
+          format: password
+          description: Identifier password hashed
+          example: pa$$word
+      required:
+        - id
+        - account
+        - email
+        - salt
+        - password
+    Advertisements:
+      title: Advertisement
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Advertisement unique id
+        title:
+          type: string
+          maxLength: 25
+          example: Iphone 12 pro max
+          description: Title of the Ad
+        description:
+          type: string
+          maxLength: 500
+          example: 'Iphone 12 265gb , in really good condition, like new!'
+          description: Description of the ad
+        category:
+          type: string
+          example: ElectronicsAndMultimedia
+          maxLength: 80
+          description: Category type of the Ad
+        location:
+          type: string
+          example: Oulu
+          maxLength: 20
+          description: Location city of the Ad
+        delivery:
+          type: boolean
+          description: "Delivery has two choices, either can be shipped or pickup, doesn't have to be required, some people prefer not to tell."
+        price:
+          type: number
+          format: float
+          example: 656.5
+          description: Price of the Item
+        pictures:
+          type: array
+          maxItems: 4
+          description: 'Photos of the item, max 4, to be uploaded to Cloudinary'
+          items: {}
+        creator:
+          $ref: '#/components/schemas/User'
+        created:
+          type: string
+          format: date-time
+          example: '2021-02-27T13:40:39.714+00:00'
+          description: Date and time of the creation of the Ad
+      required:
+        - id
+        - title
+        - description
+        - category
+        - location
+        - price
+        - pictures
+      x-examples:
+        Iphone 12 pro max:
+          id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          title: Iphone 12 pro max
+          description: 'Iphone 12 265gb , in really good condition, like new!'
+          category: ElectronicsAndMultimedia
+          location: Oulu
+          delivery: true
+          price: 656.5
+          pictures:
+            - null
+          creator:
+            id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+            account:
+              phone: string
+              username: string
+            email: user@example.com
+            salt: dc1a9a8c-8112-4c4e-9303-9e1a05b10cc8
+            password: pa$$word
+          created: '2021-02-27T13:40:39.714+00:00'
+      description: |
+        Advertisements model
