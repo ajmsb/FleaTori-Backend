@@ -1,4 +1,4 @@
-# FleaTori store
+# Description
 CRUD app for an Ecommerce.
 
 # Technologies
@@ -9,3 +9,6 @@ CRUD app for an Ecommerce.
 - uuid4
 - Mongoose
 - Cloudinary
+
+  # Remark
+  This was a School Project at Oulu University of Applied Sciences
